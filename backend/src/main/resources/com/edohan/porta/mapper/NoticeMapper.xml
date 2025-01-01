@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edohan.porta.mapper.NoticeMapper">
+    <select id="noticeList" resultType="java.util.Map">
+        SELECT 
+            ID,
+            TITLE,
+            CONTENT,
+            WRITER,
+            CREATEDATE ,
+            UPDATEDATE 
+        FROM TB_NOTICE
+        ORDER BY CREATEDATE DESC
+    </select>
+    
+    <select id="getNoticeDetail" parameterType="int" resultType="map">
+        SELECT * FROM TB_NOTICE
+        WHERE ID = #{id}
+    </select>
+
+    <insert id="saveNotice" parameterType="map">
+        INSERT INTO TB_NOTICE 
+        (TITLE,
+        CONTENT,
+        WRITER,
+        CREATEDATE,
+        UPDATEDATE)
+        VALUES 
+        (#{title},
+        #{content},
+        #{userId},
+        NOW(),
+        NOW())
+    </insert>
+
+    <update id="updateNotice" parameterType="map">
+        UPDATE TB_NOTICE
+        SET TITLE = #{title}, CONTENT = #{content}, UPDATEDATE = NOW()
+        WHERE ID = #{id}
+    </update>
+    
+    <delete id="deleteNotice" parameterType="int">
+        DELETE FROM TB_NOTICE
+        WHERE ID = #{id}
+    </delete>
+</mapper>

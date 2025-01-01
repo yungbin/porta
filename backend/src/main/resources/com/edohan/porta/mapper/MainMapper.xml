@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edohan.porta.mapper.MainMapper">
+    <select id="highViewCountSelect" resultType="java.util.Map">
+        SELECT A.ID
+            , (SELECT CODE_NM FROM common_code B WHERE A.REGION_CD = B.CODE_VAL) AS REGION_NM
+            , (SELECT CODE_NM FROM common_code B WHERE A.AREA_CD = B.CODE_VAL) AS AREA_NM
+            , A.ROOM_NM
+            , A.THEME_NM
+            , A.GENRE_CD
+            , (SELECT CODE_NM FROM common_code B WHERE A.GENRE_CD = B.CODE_VAL) AS GENRE_NM
+            , A.CONTENT
+            , A.MIN_PARTY
+            , A.MAX_PARTY
+            , A.RUN_TIME
+            , A.ACTIVITY
+            , A.DEVICE_RATIO
+            , A.PRICE
+            , (SELECT COUNT(*) FROM tb_likes WHERE THEME_ID = A.ID) AS LIKES
+            , A.RATING
+            , A.LEVEL
+            , A.IMG_PATH
+            , A.CREATED_ID
+            , A.CREATED_TIME
+            , A.UPDATED_ID
+            , A.UPDATED_TIME
+            , A.NEW_THEME
+        FROM ESCAPE_ROOM_LIST A
+        WHERE A.AREA_CD = '103'
+		  ORDER BY ID DESC
+        LIMIT 10
+    </select>
+
+    <select id="recentPostsSelect" resultType="java.util.Map">
+        SELECT A.ID
+            , (SELECT CODE_NM FROM common_code B WHERE A.REGION_CD = B.CODE_VAL) AS REGION_NM
+            , (SELECT CODE_NM FROM common_code B WHERE A.AREA_CD = B.CODE_VAL) AS AREA_NM
+            , A.ROOM_NM
+            , A.THEME_NM
+            , A.GENRE_CD
+            , (SELECT CODE_NM FROM common_code B WHERE A.GENRE_CD = B.CODE_VAL) AS GENRE_NM
+            , A.CONTENT
+            , A.MIN_PARTY
+            , A.MAX_PARTY
+            , A.RUN_TIME
+            , A.ACTIVITY
+            , A.DEVICE_RATIO
+            , A.PRICE
+            , (SELECT COUNT(*) FROM tb_likes WHERE THEME_ID = A.ID) AS LIKES
+            , A.RATING
+            , A.LEVEL
+            , A.IMG_PATH
+            , A.CREATED_ID
+            , A.CREATED_TIME
+            , A.UPDATED_ID
+            , A.UPDATED_TIME
+            , A.NEW_THEME
+        FROM ESCAPE_ROOM_LIST A
+        WHERE A.AREA_CD = '103'
+            AND A.NEW_THEME = 'Y'
+		  ORDER BY ID DESC
+        LIMIT 10
+
+    </select>
+
+    <select id="topLikedPostsSelect" resultType="java.util.Map">
+        SELECT A.ID
+            , (SELECT CODE_NM FROM common_code B WHERE A.REGION_CD = B.CODE_VAL) AS REGION_NM
+            , (SELECT CODE_NM FROM common_code B WHERE A.AREA_CD = B.CODE_VAL) AS AREA_NM
+            , A.ROOM_NM
+            , A.THEME_NM
+            , A.GENRE_CD
+            , (SELECT CODE_NM FROM common_code B WHERE A.GENRE_CD = B.CODE_VAL) AS GENRE_NM
+            , A.CONTENT
+            , A.MIN_PARTY
+            , A.MAX_PARTY
+            , A.RUN_TIME
+            , A.ACTIVITY
+            , A.DEVICE_RATIO
+            , A.PRICE
+            , (SELECT COUNT(*) FROM tb_likes WHERE THEME_ID = A.ID) AS LIKES
+            , A.RATING
+            , A.LEVEL
+            , A.IMG_PATH
+            , A.CREATED_ID
+            , A.CREATED_TIME
+            , A.UPDATED_ID
+            , A.UPDATED_TIME
+            , A.NEW_THEME
+        FROM ESCAPE_ROOM_LIST A
+        WHERE A.AREA_CD = '106'
+            AND A.NEW_THEME = 'N'
+		  ORDER BY ID DESC
+        LIMIT 10
+    </select>
+</mapper>
