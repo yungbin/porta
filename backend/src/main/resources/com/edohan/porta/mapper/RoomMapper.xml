@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edohan.porta.mapper.RoomMapper">
+
+    <select id="roomList" resultType="java.util.Map">
+        SELECT A.ID
+            , (SELECT CODE_NM FROM common_code B WHERE A.REGION_CD = B.CODE_VAL) AS REGION_NM
+            , (SELECT CODE_NM FROM common_code B WHERE A.AREA_CD = B.CODE_VAL) AS AREA_NM
+            , A.ROOM_NM
+            , A.THEME_NM
+            , (SELECT CODE_NM FROM common_code B WHERE A.GENRE_CD = B.CODE_VAL) AS GENRE_NM
+            , A.CONTENT
+            , A.MIN_PARTY
+            , A.MAX_PARTY
+            , A.RUN_TIME
+            , A.ACTIVITY
+            , A.DEVICE_RATIO
+            , A.PRICE
+            , (SELECT COUNT(*) FROM tb_likes WHERE THEME_ID = A.ID) AS LIKES
+            , A.RATING
+            , A.LEVEL
+            , A.IMG_PATH
+            , A.CREATED_ID
+            , A.CREATED_TIME
+            , A.UPDATED_ID
+            , A.UPDATED_TIME
+            , A.NEW_THEME
+        FROM ESCAPE_ROOM_LIST A
+        WHERE 1 = 1
+        <if test="keyword != null and keyword != ''">
+            AND (REPLACE(A.ROOM_NM,' ','') LIKE CONCAT('%', #{keyword}, '%') 
+            OR REPLACE(A.THEME_NM,' ','') LIKE CONCAT('%', #{keyword}, '%') 
+            OR REPLACE(A.CONTENT,' ','') LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        <if test="region != null and region != ''">
+            AND A.REGION_CD = #{region} 
+        </if>
+        <if test="genre != null and genre != ''">
+            AND A.GENRE_CD = #{genre} 
+        </if>
+    </select>
+
+    <select id="myLikeList" resultType="java.util.Map">
+        SELECT A.ID
+            , (SELECT CODE_NM FROM common_code B WHERE A.REGION_CD = B.CODE_VAL) AS REGION_NM
+            , (SELECT CODE_NM FROM common_code B WHERE A.AREA_CD = B.CODE_VAL) AS AREA_NM
+            , A.ROOM_NM
+            , A.THEME_NM
+            , (SELECT CODE_NM FROM common_code B WHERE A.GENRE_CD = B.CODE_VAL) AS GENRE_NM
+            , A.CONTENT
+            , A.MIN_PARTY
+            , A.MAX_PARTY
+            , A.RUN_TIME
+            , A.ACTIVITY
+            , A.DEVICE_RATIO
+            , A.PRICE
+            , (SELECT COUNT(*) FROM tb_likes WHERE THEME_ID = A.ID) AS LIKES
+            , A.RATING
+            , A.LEVEL
+            , A.IMG_PATH
+            , A.CREATED_ID
+            , A.CREATED_TIME
+            , A.UPDATED_ID
+            , A.UPDATED_TIME
+            , A.NEW_THEME
+        FROM ESCAPE_ROOM_LIST A
+        LEFT OUTER JOIN tb_likes B
+        	ON A.ID = B.THEME_ID
+        WHERE 1 = 1
+        <if test="keyword != null and keyword != ''">
+            AND (REPLACE(A.ROOM_NM,' ','') LIKE CONCAT('%', #{keyword}, '%') 
+            OR REPLACE(A.THEME_NM,' ','') LIKE CONCAT('%', #{keyword}, '%') 
+            OR REPLACE(A.CONTENT,' ','') LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        <if test="region != null and region != ''">
+            AND A.REGION_CD = #{region} 
+        </if>
+        <if test="genre != null and genre != ''">
+            AND A.GENRE_CD = #{genre} 
+        </if>
+        AND B.USER_ID = #{userId}
+        ORDER BY B.CREATED_TIME DESC
+    </select>
+
+    <select id="myRecordList" resultType="java.util.Map">
+        SELECT A.ID
+            , (SELECT CODE_NM FROM common_code B WHERE A.REGION_CD = B.CODE_VAL) AS REGION_NM
+            , (SELECT CODE_NM FROM common_code B WHERE A.AREA_CD = B.CODE_VAL) AS AREA_NM
+            , A.ROOM_NM
+            , A.THEME_NM
+            , (SELECT CODE_NM FROM common_code B WHERE A.GENRE_CD = B.CODE_VAL) AS GENRE_NM
+            , A.CONTENT
+            , A.MIN_PARTY
+            , A.MAX_PARTY
+            , A.RUN_TIME
+            , A.ACTIVITY
+            , A.DEVICE_RATIO
+            , A.PRICE
+            , (SELECT COUNT(*) FROM tb_likes WHERE THEME_ID = A.ID) AS LIKES
+            , A.RATING
+            , A.LEVEL
+            , A.IMG_PATH
+            , A.CREATED_ID
+            , A.CREATED_TIME
+            , A.UPDATED_ID
+            , A.UPDATED_TIME
+            , A.NEW_THEME
+        FROM ESCAPE_ROOM_LIST A
+        LEFT OUTER JOIN tb_likes B
+        	ON A.ID = B.THEME_ID
+        WHERE 1 = 1
+        <if test="keyword != null and keyword != ''">
+            AND (REPLACE(A.ROOM_NM,' ','') LIKE CONCAT('%', #{keyword}, '%') 
+            OR REPLACE(A.THEME_NM,' ','') LIKE CONCAT('%', #{keyword}, '%') 
+            OR REPLACE(A.CONTENT,' ','') LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        <if test="region != null and region != ''">
+            AND A.REGION_CD = #{region} 
+        </if>
+        <if test="genre != null and genre != ''">
+            AND A.GENRE_CD = #{genre} 
+        </if>
+        AND B.USER_ID = #{userId}
+        ORDER BY B.CREATED_TIME DESC
+    </select>
+
+    <select id="newList" resultType="java.util.Map">
+        SELECT A.ID
+            , (SELECT CODE_NM FROM common_code B WHERE A.REGION_CD = B.CODE_VAL) AS REGION_NM
+            , (SELECT CODE_NM FROM common_code B WHERE A.AREA_CD = B.CODE_VAL) AS AREA_NM
+            , A.ROOM_NM
+            , A.THEME_NM
+            , (SELECT CODE_NM FROM common_code B WHERE A.GENRE_CD = B.CODE_VAL) AS GENRE_NM
+            , A.CONTENT
+            , A.MIN_PARTY
+            , A.MAX_PARTY
+            , A.RUN_TIME
+            , A.ACTIVITY
+            , A.DEVICE_RATIO
+            , A.PRICE
+            , (SELECT COUNT(*) FROM tb_likes WHERE THEME_ID = A.ID) AS LIKES
+            , A.RATING
+            , A.LEVEL
+            , A.IMG_PATH
+            , A.CREATED_ID
+            , A.CREATED_TIME
+            , A.UPDATED_ID
+            , A.UPDATED_TIME
+            , A.NEW_THEME
+        FROM ESCAPE_ROOM_LIST A
+        WHERE A.NEW_THEME = 'Y'
+        ORDER BY CREATED_TIME DESC, RATING DESC
+    </select>
+
+    <select id="rcmdList" resultType="java.util.Map">
+        SELECT A.ID
+            , (SELECT CODE_NM FROM common_code B WHERE A.REGION_CD = B.CODE_VAL) AS REGION_NM
+            , (SELECT CODE_NM FROM common_code B WHERE A.AREA_CD = B.CODE_VAL) AS AREA_NM
+            , A.ROOM_NM
+            , A.THEME_NM
+            , (SELECT CODE_NM FROM common_code B WHERE A.GENRE_CD = B.CODE_VAL) AS GENRE_NM
+            , A.CONTENT
+            , A.MIN_PARTY
+            , A.MAX_PARTY
+            , A.RUN_TIME
+            , A.ACTIVITY
+            , A.DEVICE_RATIO
+            , A.PRICE
+            , (SELECT COUNT(*) FROM tb_likes WHERE THEME_ID = A.ID) AS LIKES
+            , A.RATING
+            , A.LEVEL
+            , A.IMG_PATH
+            , A.NEW_THEME
+            , A.RCMD
+            , A.CREATED_ID
+            , A.CREATED_TIME
+            , A.UPDATED_ID
+            , A.UPDATED_TIME
+        FROM ESCAPE_ROOM_LIST A
+        WHERE A.RCMD = 'Y'
+        ORDER BY RATING DESC
+    </select>
+    
+    <select id="getRoomDetail" parameterType="int" resultType="map">
+        SELECT A.ID
+            , (SELECT CODE_NM FROM common_code B WHERE A.REGION_CD = B.CODE_VAL) AS REGION_NM
+            , (SELECT CODE_NM FROM common_code B WHERE A.AREA_CD = B.CODE_VAL) AS AREA_NM
+            , A.ROOM_NM
+            , A.THEME_NM
+            , A.REGION_CD
+            , A.AREA_CD
+            , A.GENRE_CD
+            , (SELECT CODE_NM FROM common_code B WHERE A.GENRE_CD = B.CODE_VAL) AS GENRE_NM
+            , A.CONTENT
+            , A.MIN_PARTY
+            , A.MAX_PARTY
+            , A.RUN_TIME
+            , A.ACTIVITY
+            , A.DEVICE_RATIO
+            , A.PRICE
+            , (SELECT COUNT(*) FROM tb_likes WHERE THEME_ID = A.ID) AS LIKES
+            , A.RATING
+            , A.LEVEL
+            , A.IMG_PATH
+            , A.SITE
+            , A.RCMD
+            , A.CREATED_ID
+            , A.CREATED_TIME
+            , A.UPDATED_ID
+            , A.UPDATED_TIME
+            , A.NEW_THEME
+        FROM 
+            ESCAPE_ROOM_LIST A
+        WHERE 
+            A.ID = #{id}
+    </select>
+
+    <select id="getRankList" resultType="java.util.Map">
+        SELECT A.ID
+            , (SELECT CODE_NM FROM common_code B WHERE A.REGION_CD = B.CODE_VAL) AS REGION_NM
+            , (SELECT CODE_NM FROM common_code B WHERE A.AREA_CD = B.CODE_VAL) AS AREA_NM
+            , A.ROOM_NM
+            , A.THEME_NM
+            , (SELECT CODE_NM FROM common_code B WHERE A.GENRE_CD = B.CODE_VAL) AS GENRE_NM
+            , A.MIN_PARTY
+            , A.MAX_PARTY
+            , A.RUN_TIME
+            , A.ACTIVITY
+            , A.DEVICE_RATIO
+            , A.PRICE
+            , (SELECT COUNT(*) FROM tb_likes WHERE THEME_ID = A.ID) AS LIKES
+            , A.RATING
+            , A.LEVEL
+            , A.IMG_PATH
+            , (SELECT COUNT(*) FROM tb_reviews WHERE THEME_ID = A.ID) AS COMMENTS
+        FROM ESCAPE_ROOM_LIST A
+    </select>
+
+    <insert id="saveRoom" parameterType="map">
+        INSERT INTO ESCAPE_ROOM_LIST 
+        (ROOM_NM
+        , THEME_NM
+        , REGION_CD
+        , AREA_CD
+        , GENRE_CD
+        , CONTENT
+        , MIN_PARTY
+        , MAX_PARTY
+        , RUN_TIME
+        , ACTIVITY
+        , DEVICE_RATIO
+        , PRICE
+        , RATING
+        , LEVEL
+        , RCMD
+        , NEW_THEME
+        , IMG_PATH
+        , SITE
+        , CREATED_ID
+        , CREATED_TIME
+        , UPDATED_ID
+        , UPDATED_TIME
+        )
+        VALUES 
+        (#{roomNm}
+        , #{themeNm}
+        , #{regionCd}
+        , #{areaCd}
+        , #{genreCd}
+        , #{content}
+        , #{minParty}
+        , #{maxParty}
+        , #{runTime}
+        , #{activiti}
+        , #{diviceRatio}
+        , #{price}
+        , #{rating}
+        , #{level}
+        , #{rcmd}
+        , #{newTheme}
+        , #{imgPath}
+        , #{site}
+        , #{userId}
+        , NOW()
+        , #{userId}
+        , NOW())
+    </insert>
+
+    <update id="updateRoom" parameterType="map">
+        UPDATE ESCAPE_ROOM_LIST
+        SET THEME_NM        = #{map.themeNm}
+            , ROOM_NM       = #{map.roomNm}
+            , REGION_CD     = #{map.regionCd}
+            , AREA_CD       = #{map.areaCd}
+            , GENRE_CD      = #{map.genreCd}
+			, CONTENT       = #{map.content}
+            , MIN_PARTY     = #{map.minParty}
+            , MAX_PARTY     = #{map.maxParty}
+            , RUN_TIME      = #{map.runTime}
+            , ACTIVITY      = #{map.activiti}
+            , DEVICE_RATIO  = #{map.diviceRatio}
+            , PRICE         = #{map.price}
+            , RATING        = #{map.rating}
+            , LEVEL         = #{map.level}
+            , IMG_PATH      = #{map.imgPath}
+            , SITE          = #{map.site}
+            , UPDATED_ID    = #{map.userId}
+            , UPDATED_TIME  = NOW()
+			, NEW_THEME     = #{map.newTheme}
+			, RCMD          = #{map.rcmd}
+        WHERE ID = #{id}
+    </update>
+    
+    <delete id="deleteRoom" parameterType="int">
+        DELETE FROM ESCAPE_ROOM_LIST
+        WHERE ID = #{id}
+    </delete>
+
+    <update id="incViewCount" parameterType="int">
+        UPDATE ESCAPE_ROOM_LIST
+        SET HIT = HIT + 1
+        WHERE ID = #{id}
+    </update>
+
+    <insert id="addLikes" parameterType="map">
+        INSERT INTO TB_LIKES
+        (USER_ID
+		  , THEME_ID
+		  , CREATED_TIME)
+        VALUES 
+        (#{userId}
+        , #{id}
+        , NOW())
+    </insert>
+
+    <delete id="removeLikes" parameterType="map">
+        DELETE FROM TB_LIKES
+        WHERE USER_ID = #{userId} 
+        AND THEME_ID = #{id}
+    </delete>
+
+    <select id="checkIfLiked" parameterType="map" resultType="Integer">
+        SELECT COUNT(*)
+        FROM TB_LIKES
+        WHERE USER_ID = #{userId}
+            AND THEME_ID = #{id}
+    </select>
+
+    <insert id="saveReview" parameterType="map">
+        INSERT INTO TB_REVIEWS 
+            (USER_ID,
+            THEME_ID,
+            CONTENT,
+            RATING,
+            PLAY_DATE,
+            SUCCESS_FLAG,
+            LEVEL,
+            LEFT_TIME,
+            CREATED_TIME)
+        VALUES 
+            (#{userId},
+            #{themeId},
+            #{content},
+            #{rating},
+            #{playDate},
+            #{successFlag},
+            #{level},
+            #{leftTime},
+            NOW())
+    </insert>
+
+    <select id="getRoomReviews" parameterType="int" resultType="java.util.Map">
+        SELECT USER_ID          AS USER_ID,
+                THEME_ID        AS THEME_ID,
+                CONTENT         AS CONTENT,
+                RATING          AS RATING,
+                PLAY_DATE       AS PLAY_DATE,
+                SUCCESS_FLAG    AS SUCCESS_FLAG,
+                LEVEL           AS LEVEL,
+                LEFT_TIME       AS LEFT_TIME,
+                CREATED_TIME    AS CREATED_TIME
+        FROM TB_REVIEWS
+        WHERE THEME_ID = #{id}
+        ORDER BY CREATED_TIME DESC
+    </select>
+</mapper>

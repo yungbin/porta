@@ -111,17 +111,38 @@ export default {
     closeEditModal() {
       this.isEditModalVisible = false; // 모달 숨기기
     },
-    updateProfile() {
+    async updateProfile() {
       console.log(this.profile);
-      axios.put('api/member/profile', this.profile)
-        .then(response => {
-          console.log('Profile updated:', response.data);
-          this.fetchProfileData(); // 업데이트된 프로필 다시 가져오기
-          this.closeEditModal(); // 모달 숨기기
-        })
-        .catch(error => {
-          console.error('Error updating profile:', error);
+      try {
+        const birthDate = this.formatDate(this.profile.BIRTH); // Format the birth date
+        const response = await axios.post(`/api/member/profile`, {
+          id: this.profile.USER_ID,
+          username: this.profile.USER_NM,
+          nickname: this.profile.NICK_NM,
+          phone: this.profile.PHONE,
+          email: this.profile.EMAIL,
+          birth: birthDate,
+          address: this.profile.ADDRESS,
+          // Add any additional fields as necessary
         });
+
+        if (response.data.status === 'updated') {
+          alert('Profile updated successfully');
+          this.fetchProfileData(); // Refresh profile data
+          this.closeEditModal(); // Hide modal
+        } else {
+          alert('Failed to update profile');
+        }
+      } catch (error) {
+        console.error('Error updating profile:', error);
+      }
+    },
+    formatDate(date) {
+      const d = new Date(date);
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
     }
   }
 };

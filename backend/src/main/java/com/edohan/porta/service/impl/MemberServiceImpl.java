@@ -25,21 +25,23 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public Map<String, Object> login(String userId, String password) {
-        String storedPassword = mapper.getPassword(userId);
-        if (password.equals(storedPassword)) {
-            String username = mapper.getUserNm(userId);
-            String nickname = mapper.getNickNm(userId);
-            String role = mapper.getRole(userId);
+        Map<String, Object> map = mapper.loginCheck(userId, password);
 
-            return Map.of(
-                "status", "success",
-                "username", username,
-                "nickname", nickname,
-                "role", role
-            );
+            Map<String, Object> rs = new HashMap<>();
+
+        if (map != null && password.equals(map.get("PASSWORD"))) {
+            rs.put("status", "success");
+            rs.put("nickname", map.get("USER_ID"));
+            rs.put("username", map.get("USER_NM"));
+            rs.put("nickname", map.get("NICK_NM"));
+            rs.put("email", map.get("EMAIL"));
+            rs.put("role",map.get("ROLE"));
         } else {
-            return Map.of("status", "failure", "message", "Invalid credentials");
+            rs.put("status", "failure");
+            rs.put("message", "Invalid credentials");
         }
+
+        return rs;
     }
 
     @Override

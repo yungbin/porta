@@ -19,7 +19,8 @@
             <td>{{ member.USER_NM }}</td>
             <td>{{ member.EMAIL }}</td>
             <td class="text-center">{{ member.USE_YN }}</td>
-            <td class="text-center"><span :class="['role-badge', member.ROLE.toLowerCase()]">{{ member.ROLE }}</span></td>
+            <td class="text-center"><span :class="['role-badge', member.ROLE.toLowerCase()]">{{ member.ROLE }}</span>
+            </td>
             <td class="text-center">
               <button class="btn btn-info" @click="showInfo(member)">Info</button>
               <button class="btn btn-danger" @click="deleteMember(member.USER_ID)">Delete</button>
@@ -41,7 +42,7 @@
         </div>
         <div class="profile-details">
           <div class="form-group">
-            <label>UserId : {{ profile.USER_ID }}</label>
+            <label>UserId : {{ selectedMember.USER_ID }}</label>
           </div>
           <div class="form-group">
             <label>Username:</label>
@@ -156,7 +157,7 @@ export default {
           use: member.USE_YN,
         });
         selectedMember.value.BIRTH = birthDate;
-        
+
         if (response.data.status === 'updated') {
           alert('Member updated successfully');
           closeModal();
@@ -243,7 +244,8 @@ export default {
   overflow: hidden;
 }
 
-.member-table th, .member-table td {
+.member-table th,
+.member-table td {
   padding: 15px;
   text-align: left;
 }
@@ -427,8 +429,10 @@ export default {
 .button-container {
   display: flex;
   justify-content: center;
-  margin-top: 20px; /* 필요에 따라 여백 조정 */
-  margin-bottom: 20px; /* 필요에 따라 여백 조정 */
+  margin-top: 20px;
+  /* 필요에 따라 여백 조정 */
+  margin-bottom: 20px;
+  /* 필요에 따라 여백 조정 */
 }
 
 .text-center {
@@ -437,6 +441,7 @@ export default {
 
 .input-group {
   display: flex;
-  gap: 10px; /* 셀 간격 조정 */
+  gap: 10px;
+  /* 셀 간격 조정 */
 }
 </style>

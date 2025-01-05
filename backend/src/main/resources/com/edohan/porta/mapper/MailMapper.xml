@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edohan.porta.mapper.MailMapper">
+
+    <insert id="insertMailToken" parameterType="java.util.Map">
+        INSERT INTO 
+        TOKEN_STORAGE 
+            (USER_ID,
+            EMAIL,
+            TOKEN,
+            CREATED_TIME,
+            EXPIRES_TIME)
+        VALUES 
+            (#{userId},
+            #{email},
+            #{token},
+            NOW(),
+            DATE_ADD(NOW(), INTERVAL 5 MINUTE))
+    </insert>
+
+    <select id="checkMailToken" parameterType="map" resultType="Integer">
+        SELECT COUNT(*)
+        FROM token_storage
+        WHERE USER_ID = #{userId}
+        	AND EMAIL = #{email}
+        	AND TOKEN = #{token}
+            AND STATUS = 'ACTIVE'
+            AND NOW() BETWEEN CREATED_TIME AND EXPIRES_TIME 
+    </select>
+
+    <update id="updateMailToken" parameterType="map">
+        UPDATE token_storage
+            SET STATUS = 'USED'
+        WHERE USER_ID = #{userId}
+            AND EMAIL = #{email}
+            AND STATUS = 'ACTIVE'
+    </update>
+
+</mapper>

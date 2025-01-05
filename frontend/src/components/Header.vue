@@ -2,14 +2,17 @@
   <header :class="['header', { 'scrolled': isScrolled }]">
     <div class="container">
       <div class="logo">
-        <router-link to="/" class="logo-link">Porta</router-link>
+        <router-link to="/" class="logo-link">Fuse ESCAPE</router-link>
       </div>
       <nav class="nav">
-        <router-link to="/newLinkList" class="nav-link">신규사이트</router-link>
-        <router-link to="/portaList" class="nav-link">LIST♤</router-link>
-        <router-link to="/portaRank" class="nav-link">RANK♧</router-link>
+        <router-link to="/rcmdThemeList" class="nav-link">추천/신규♤</router-link>
+        <router-link to="/roomList" class="nav-link">LIST◇</router-link>
+        <router-link to="/roomRank" class="nav-link">RANK♡</router-link>
+        <router-link to="/recruitment" class="nav-link">파티원모집♧</router-link>
         <router-link to="/noticeList" class="nav-link">공지사항</router-link>
+        <router-link to="/inquiries" class="nav-link">문의하기</router-link>
         <div v-if="roleAdmin">
+          <router-link to="/inquiriesList" class="nav-link">문의목록</router-link>
         </div>
       </nav>
       <div class="auth">
@@ -17,7 +20,8 @@
           <span class="sessionId">{{ user.nickname }} 님</span>
           <div v-if="profileMenuOpen" class="profile-menu">
             <router-link to="/myProfile" @click="closeMenu" class="profile-menu-link">Profile</router-link>
-            <router-link to="/myLikes" @click="closeMenu" class="profile-menu-link">MyLink</router-link>
+            <router-link to="/myLikes" @click="closeMenu" class="profile-menu-link">MyLikes</router-link>
+            <router-link to="/myRecords" @click="closeMenu" class="profile-menu-link">MyRecords</router-link>
             <router-link v-if="roleAdmin" to="/memberList" class="profile-menu-link">Member</router-link>
           </div>
         </div>
@@ -29,9 +33,10 @@
       </button>
     </div>
     <div class="mobile-menu" :class="{ 'is-active': isMenuOpen }">
-      <router-link to="/newLinkList" class="mobile-nav-link" @click="closeMenu">New Link</router-link>
-      <router-link to="/portaList" class="mobile-nav-link" @click="closeMenu">LIST♤</router-link>
-      <router-link to="/portaRank" class="mobile-nav-link" @click="closeMenu">RANK♧</router-link>
+      <router-link to="/newThemeList" class="mobile-nav-link" @click="closeMenu">신규테마</router-link>
+      <router-link to="/rcmdThemeList" class="mobile-nav-link" @click="closeMenu">추천테마</router-link>
+      <router-link to="/roomList" class="mobile-nav-link" @click="closeMenu">LIST♤</router-link>
+      <router-link to="/roomRank" class="mobile-nav-link" @click="closeMenu">RANK♧</router-link>
       <router-link to="/noticeList" class="mobile-nav-link" @click="closeMenu">공지사항</router-link>
       <router-link to="/myProfile" class="mobile-nav-link" @click="closeMenu">Profile</router-link>
       <router-link v-if="roleAdmin" to="/memberList" class="mobile-nav-link" @click="closeMenu">Member</router-link>
@@ -324,5 +329,4 @@ export default {
   /* 텍스트가 컨테이너를 넘지 않도록 설정 */
   text-overflow: ellipsis;
   /* 필요 시 말줄임표 표시 */
-}
-</style>
+}</style>

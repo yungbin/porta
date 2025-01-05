@@ -42,7 +42,7 @@ export default {
         title: 'Innovate Together',
         description: 'Collaborate with a community of thinkers and creators',
         buttonText: 'Join Us',
-        buttonLink: '/portaList',
+        buttonLink: '/roomList',
         background: require('@/img/image_02.jpg'),
       },
       {

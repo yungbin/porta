@@ -48,9 +48,9 @@ public class MemberController {
                 return Collections.singletonMap("status", "error");
             }
         }
-
-    @PostMapping("/login")
-    public Map<String, Object> login(@RequestBody Map<String, String> loginRequest, HttpSession session) {
+        
+        @PostMapping("/login")
+        public Map<String, Object> login(@RequestBody Map<String, String> loginRequest, HttpSession session) {
         String userId = loginRequest.get("id");
         String password = loginRequest.get("password");
         try {
@@ -61,6 +61,7 @@ public class MemberController {
                 session.setAttribute("id", userId);
                 session.setAttribute("username", response.get("username"));
                 session.setAttribute("nickname", response.get("nickname"));
+                session.setAttribute("email", response.get("email"));
                 session.setAttribute("role", response.get("role")); // 사용자 권한 저장
             }
     
@@ -88,7 +89,7 @@ public class MemberController {
         return response;
     }
 
-
+    
     @DeleteMapping("/delete/{userId}")
     public Map<String, Object> deleteMember(@PathVariable String userId) {
         boolean result = service.deleteMember(userId);
@@ -115,4 +116,29 @@ public class MemberController {
         }
         return hexString.toString();
     }
+    @PostMapping(value = "/profile", consumes = "multipart/form-data")
+        public void profileUpdate(@RequestParam("id") String id,
+                                            @RequestParam("password") String password,
+                                            @RequestParam("username") String username,
+                                            @RequestParam("nickName") String nickName,
+                                            @RequestParam("phone") String phone,
+                                            @RequestParam("birthdate") String birthdate,
+                                            @RequestParam("email") String email,
+                                            @RequestParam("address") String address) {
+                Map<String, String> map = new HashMap<>();
+                map.put("id", id);
+                map.put("password", password);
+                map.put("userNm", username);
+                map.put("nickNm", nickName);
+                map.put("phone", phone);
+                map.put("email", email);
+                map.put("birth", birthdate);
+                map.put("address", address);
+                System.out.println("     data    ::    " + id);
+                System.out.println("     data    ::    " + password);
+                System.out.println("     data    ::    " + nickName);
+                System.out.println("     data    ::    " + phone);
+                System.out.println("     data    ::    " + birthdate);
+                System.out.println("     data    ::    " + address);
+        }
 }

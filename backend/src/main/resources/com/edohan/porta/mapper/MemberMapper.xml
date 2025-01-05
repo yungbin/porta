@@ -49,30 +49,6 @@
             NOW())
     </insert>
 
-    <select id="getPassword" parameterType="java.lang.String" resultType="java.lang.String">
-        SELECT PASSWORD
-        FROM TB_MEMBER
-        WHERE USER_ID = #{userId}
-    </select>
-
-    <select id="getUserNm" parameterType="java.lang.String" resultType="java.lang.String">
-        SELECT USER_NM
-        FROM TB_MEMBER
-        WHERE USER_ID = #{userId}
-    </select>
-    
-    <select id="getNickNm" parameterType="java.lang.String" resultType="java.lang.String">
-        SELECT NICK_NM
-        FROM TB_MEMBER
-        WHERE USER_ID = #{userId}
-    </select>
-
-    <select id="getRole" parameterType="java.lang.String" resultType="java.lang.String">
-        SELECT ROLE
-        FROM TB_MEMBER
-        WHERE USER_ID = #{userId}
-    </select>
-    
     <select id="getProfile" parameterType="java.lang.String" resultType="java.util.Map">
         SELECT 
             USER_ID,
@@ -92,6 +68,21 @@
             TB_MEMBER
         WHERE 
             USER_ID = #{userId}
+    </select>
+
+    <select id="loginCheck" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT 
+            USER_ID,
+            PASSWORD,
+            USER_NM,
+            NICK_NM,
+            EMAIL,
+            ROLE
+        FROM 
+            TB_MEMBER
+        WHERE 
+            USER_ID = #{userId}
+            AND PASSWORD = #{password}
     </select>
 
     <select id="checkIdExists" parameterType="map" resultType="Integer">

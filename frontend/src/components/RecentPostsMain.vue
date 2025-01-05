@@ -1,15 +1,15 @@
 <template>
-  <section class="porta-list">
+  <section class="room-list">
     <h2 class="section-title">RecentPostsMain</h2>
     <div class="slider-container">
       <button class="slider-button prev" @click="prevSlide" :disabled="currentIndex === 0">&lt;</button>
       <div class="slider-wrapper" :style="{ transform: `translateX(-${currentIndex * slideWidth}%)` }">
-        <div v-for="(porta, index) in recentPosts" :key="porta.ID" class="porta-card">
-          <router-link :to="{ name: 'PortaDetail', params: { id: porta.ID } }" class="porta-card-link">
-            <div class="porta-image-container">
-              <img class="porta-image" :src="porta.IMG_PATH" :alt="porta.THEME_NM" />
-              <div class="porta-genre">
-                {{ porta.GENRE_NM }}
+        <div v-for="(room, index) in  recentPosts" :key="room.ID" class="room-card">
+          <router-link :to="{ name: 'RoomDetail', params: { id: room.ID } }" class="room-card-link">
+            <div class="room-image-container">
+              <img class="room-image" :src="room.IMG_PATH" :alt="room.THEME_NM" />
+              <div class="room-genre">
+                {{ room.GENRE_NM }}
                 <span v-if="index === 0" class="ranking-icon">
                   <i class="bi bi-trophy-fill" style="color: gold;"></i> <!-- 1위 아이콘 -->
                 </span>
@@ -21,12 +21,12 @@
                 </span>
               </div>
             </div>
-            <div class="porta-info">
-              <h3 class="porta-title">{{ porta.THEME_NM }} <i class="bi bi-balloon-heart"></i> {{ porta.LIKES }}</h3>
-              <p class="porta-content">{{ porta.PORTA_NM }}</p>
-              <div class="porta-meta">
-                <span class="meta-item"><i class="fas fa-users"></i> {{ porta.MIN_PARTY }}-{{ porta.MAX_PARTY }}명</span>
-                <span class="meta-item"><i class="fas fa-clock"></i> {{ porta.RUN_TIME }}분</span>
+            <div class="room-info">
+              <h3 class="room-title">{{ room.THEME_NM }} <i class="bi bi-balloon-heart"></i> {{ room.LIKES }}</h3>
+              <p class="room-content">{{ room.ROOM_NM }}</p>
+              <div class="room-meta">
+                <span class="meta-item"><i class="fas fa-users"></i> {{ room.MIN_PARTY }}-{{ room.MAX_PARTY }}명</span>
+                <span class="meta-item"><i class="fas fa-clock"></i> {{ room.RUN_TIME }}분</span>
               </div>
             </div>
           </router-link>
@@ -101,7 +101,7 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
 
-.porta-list {
+.room-list {
   max-width: 1200px;
   font-family: 'Noto Sans KR', sans-serif;
 }
@@ -123,44 +123,41 @@ export default {
   transition: transform 0.3s ease-in-out;
 }
 
-.porta-card {
-  flex: 0 0 20%;
-  /* 5개씩 보여줄 때 */
+.room-card {
+  flex: 0 0 20%; /* 5개씩 보여줄 때 */
   padding: 0 10px;
   box-sizing: border-box;
 }
 
-.porta-card-link {
+.room-card-link {
   display: block;
   text-decoration: none;
   color: inherit;
 }
 
-.porta-image-container {
+.room-image-container {
   position: relative;
   overflow: hidden;
   width: 100%;
-  padding-top: 141.42%;
-  /* 1:√2 Aspect Ratio */
+  padding-top: 141.42%; /* 1:√2 Aspect Ratio */
 }
 
-.porta-image {
+.room-image {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  /* 이미지가 컨테이너에 맞게 잘리도록 설정 */
+  object-fit: cover; /* 이미지가 컨테이너에 맞게 잘리도록 설정 */
   background-color: #f0f0f0;
   transition: transform 0.3s ease;
 }
 
-.porta-card:hover .porta-image {
+.room-card:hover .room-image {
   transform: scale(1.05);
 }
 
-.porta-genre {
+.room-genre {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -176,19 +173,19 @@ export default {
   margin-left: 5px;
 }
 
-.porta-info {
+.room-info {
   padding: 1rem;
   background-color: #fff;
   border-radius: 0 0 12px 12px;
 }
 
-.porta-title {
+.room-title {
   font-size: 1.2rem;
   color: #2c3e50;
   font-weight: 700;
 }
 
-.porta-content {
+.room-content {
   font-size: 0.9rem;
   color: #34495e;
   margin-bottom: 1rem;
@@ -198,7 +195,7 @@ export default {
   overflow: hidden;
 }
 
-.porta-meta {
+.room-meta {
   display: flex;
   justify-content: space-between;
   font-size: 0.8rem;
@@ -242,28 +239,27 @@ export default {
 }
 
 @media (max-width: 1024px) {
-  .porta-card {
-    flex: 0 0 33.33%;
-    /* 3개씩 보여줄 때 */
+  .room-card {
+    flex: 0 0 33.33%; /* 3개씩 보여줄 때 */
   }
 }
 
 @media (max-width: 768px) {
-  .porta-card {
-    flex: 0 0 100%;
-    /* 1개씩 보여줄 때 */
+  .room-card {
+    flex: 0 0 100%; /* 1개씩 보여줄 때 */
   }
-
-  .porta-title {
+  
+  .room-title {
     font-size: 1rem;
   }
-
-  .porta-content {
+  
+  .room-content {
     font-size: 0.8rem;
   }
-
-  .porta-meta {
+  
+  .room-meta {
     font-size: 0.7rem;
   }
 }
+
 </style>

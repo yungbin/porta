@@ -70,11 +70,17 @@
             <option value="daum.net">daum.net</option>
             <option value="hotmail.com">hotmail.com</option>
           </select>
-          <button type="button" @click="checkEmail" class="btn-secondary">이메일인증</button>
+          <button type="button" @click="sendVerificationCode" class="btn-secondary" >이메일인증</button>
         </div>
         <p v-if="!isEmailValid && emailPrefix" class="error">올바른 이메일 형식이 아닙니다.</p>
     </div>
-
+    <div class="form-group">
+        <label for="verificationCode">인증번호</label>
+        <div class="input-group">
+          <input v-model="verificationCode" id="verificationCode" type="text" placeholder="인증번호" required />
+          <button type="button" @click="checkVerificationCode" class="btn-secondary">확인</button>
+        </div>
+    </div>
       <div class="form-group address-group">
         <label>주소</label>
         <div class="input-group">
@@ -103,6 +109,7 @@
           <li v-if="!birthdate">생년월일을 입력해주세요.</li>
           <li v-if="!roadAddress">주소를 입력해주세요.</li>
           <li v-if="emailPrefix && !isEmailValid">올바른 이메일 형식을 입력해주세요.</li>
+          <li v-if="!isVerificationCodeValid">인증번호를 확인해주세요.</li>
         </ul>
       </div>
     </form>
@@ -123,7 +130,7 @@ export default {
     const confirmPassword = ref('');
     const username = ref('');
     const nickName = ref('');
-    const phonePart1 = ref('');
+    const phonePart1 = ref('010');
     const phonePart2 = ref('');
     const phonePart3 = ref('');
     const emailPrefix = ref('');
@@ -141,6 +148,9 @@ export default {
     const selectedDay = ref('');
     const birthdate = ref('');
     const selectedDomain = ref('직접입력');
+    const verificationCode = ref('');
+    const sentVerificationCode = ref(''); // 서버에서 보낸 인증번호
+    const isVerificationCodeValid = ref(false);
 
     const filterPhoneInput = (part) => {
       if (part === 'phonePart1') {
@@ -216,6 +226,51 @@ export default {
         alert('아이디를 입력해주세요.');
       }
     };
+    const sendVerificationCode = async () => {
+      if (!isEmailValid.value) {
+        alert('올바른 이메일 형식이 아닙니다.');
+        return;
+      }
+      
+      if (emailPrefix.value && (!emailDomain.value && emailDomain.value !== '')) {
+        alert('이메일을 확인해주세요');
+        return;
+      }
+      
+      if(!idChecked.value){
+        alert('아이디 중복확인 후 가능합니다');
+        return;
+      }
+      try {
+        const data = {email : `${emailPrefix.value}@${emailDomain.value}`, userId : id.value};
+        console.log("data : ", data);
+        const response = await axios.post('/api/mail/send', data);
+        alert('인증번호가 전송되었습니다.');
+        sentVerificationCode.value = response.data.verificationCode; // 서버에서 받은 인증번호
+      } catch (error) {
+        console.error('인증번호 전송 중 오류 발생:', error);
+        alert('인증번호 전송에 실패했습니다.');
+      }
+    };
+
+    const checkVerificationCode = async () => {
+      try {
+        const data = {email : `${emailPrefix.value}@${emailDomain.value}`, userId : id.value, token: verificationCode.value};
+        const response = await axios.post('/api/mail/verify', data);
+
+        if (response.data.succes) {
+          isVerificationCodeValid.value = true;
+          alert('인증번호가 확인되었습니다.');
+        } else {
+          isVerificationCodeValid.value = false;
+          alert('잘못된 인증번호입니다. 다시 확인해주세요.');
+        }
+      } catch (error) {
+        console.error('인증번호 확인 중 오류 발생:', error);
+        alert('인증번호 확인에 실패했습니다.');
+      }
+    };
+
 
     const filterInput = (part) => {
       const phoneRegex = /^[0-9]*$/;
@@ -325,6 +380,10 @@ export default {
       selectedDomain,
       filterPhoneInput,
       updateEmailDomain,
+      verificationCode,
+      isVerificationCodeValid,
+      sendVerificationCode,
+      checkVerificationCode,
     };
   },
   mounted() {
