@@ -8,7 +8,6 @@
         <router-link to="/rcmdThemeList" class="nav-link">추천/신규♤</router-link>
         <router-link to="/roomList" class="nav-link">LIST◇</router-link>
         <router-link to="/roomRank" class="nav-link">RANK♡</router-link>
-        <router-link to="/recruitment" class="nav-link">파티원모집♧</router-link>
         <router-link to="/noticeList" class="nav-link">공지사항</router-link>
         <router-link to="/inquiries" class="nav-link">문의하기</router-link>
         <div v-if="roleAdmin">
@@ -329,4 +328,5 @@ export default {
   /* 텍스트가 컨테이너를 넘지 않도록 설정 */
   text-overflow: ellipsis;
   /* 필요 시 말줄임표 표시 */
-}</style>
+}
+</style>

@@ -18,7 +18,6 @@ import MemberList from '@/views/MemberList.vue';
 import MyProfile from '@/views/MyProfile.vue';
 import Inquiries from '@/views/Inquiries.vue';
 import RoomReviews from '@/views/RoomReviews.vue';
-import Recruitment from '@/views/Recruitment.vue';
 
 const routes = [
   { path: '/', name: 'Home', component: Home, meta: { title: 'FuseEscape' } },
@@ -40,7 +39,6 @@ const routes = [
   { path: '/myProfile', name: 'MyProfile', component: MyProfile, meta: { title: '내 프로필' } },
   { path: '/inquiries', name: 'Inquiries', component: Inquiries, meta: { requiresAuth: true, admin: false, title: '문의하기' }},
   { path: '/room/:id/reviews', name: 'RoomReviews', component: RoomReviews, meta: { title: '리뷰 목록' } },
-  { path: '/recruitment', name: 'Recruitment', component: Recruitment, meta: { requiresAuth: true, title: '일행 구하기' } },
 ];
 
 const router = createRouter({

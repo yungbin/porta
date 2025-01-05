@@ -6,13 +6,17 @@
       <div class="dropdown-content">
         <a href="#" @click="changeSelection('추천 목록', 'api/room/rcmdList')">추천 목록</a>
         <a href="#" @click="changeSelection('신규', 'api/room/newList')">신규</a>
+        <a href="#" @click="changeSelection('신규', 'api/room/newList')">생성ai사이트</a>
+        <a href="#" @click="changeSelection('신규', 'api/room/newList')">news</a>
+        <a href="#" @click="changeSelection('신규', 'api/room/newList')">사이드프로젝트</a>
       </div>
     </div>
 
     <h2 class="section-title">{{ selectedOption }}</h2>
 
     <div class="room-grid">
-      <router-link v-for="room in paginatedRooms" :key="room.ID" :to="{ name: 'RoomDetail', params: { id: room.ID } }" class="room-card-link">
+      <router-link v-for="room in paginatedRooms" :key="room.ID" :to="{ name: 'RoomDetail', params: { id: room.ID } }"
+        class="room-card-link">
         <article class="room-card">
           <div class="room-image-container">
             <img class="room-image" :src="room.IMG_PATH" :alt="room.THEME_NM" />
@@ -31,11 +35,7 @@
       </router-link>
     </div>
 
-    <Pagination
-      :currentPage="currentPage"
-      :totalPages="totalPages"
-      @page-changed="changePage"
-    />
+    <Pagination :currentPage="currentPage" :totalPages="totalPages" @page-changed="changePage" />
   </section>
 </template>
 
@@ -142,7 +142,8 @@ export default {
   position: relative;
   overflow: hidden;
   width: 100%;
-  padding-top: 141.42%; /* 1:√2 Aspect Ratio */
+  padding-top: 141.42%;
+  /* 1:√2 Aspect Ratio */
 }
 
 .room-image {
@@ -210,13 +211,14 @@ export default {
 
 .meta-item i {
   font-size: 1rem;
-} 
+}
 
 .dropdown {
   position: relative;
   display: inline-block;
   font-size: 1.2rem;
-  float: right; /* 버튼을 오른쪽으로 배치 */
+  float: right;
+  /* 버튼을 오른쪽으로 배치 */
 }
 
 .dropbtn {
@@ -232,8 +234,10 @@ export default {
 .dropdown-content {
   display: none;
   position: absolute;
-  right: 0; /* 드롭다운 메뉴를 버튼의 오른쪽에 표시 */
-  top: 100%; /* 버튼 바로 아래에 표시 */
+  right: 0;
+  /* 드롭다운 메뉴를 버튼의 오른쪽에 표시 */
+  top: 100%;
+  /* 버튼 바로 아래에 표시 */
   background-color: #f9f9f9;
   min-width: 160px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
